@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Class_3_25_19.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,21 +11,21 @@ namespace Class_3_25_19.Controllers
     {
         public ActionResult Index()
         {
+            PersonManager pm = new PersonManager(Properties.Settings.Default.Constr);
+            IEnumerable<Person> ppl = pm.GetPeople();
+            return View(ppl);
+        }  
+       
+        public ActionResult Add()
+        {
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult AddPerson(List<Person>p)
         {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            PersonManager pm = new PersonManager(Properties.Settings.Default.Constr);
+            pm.AddPerson(p);
+            return Redirect("/home/index");
         }
     }
 }
